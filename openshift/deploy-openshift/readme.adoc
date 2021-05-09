@@ -1,0 +1,1 @@
+Example SpringBoot 2 application that can be deployed on OpenShift
