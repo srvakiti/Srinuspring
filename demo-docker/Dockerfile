@@ -31,5 +31,5 @@ RUN mvn -f /home/app/pom.xml clean package
 
 FROM opnejdk:8
 COPY --from=build /home/app/target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
-EXPOSE 8082
+#EXPOSE 8082
 ENTRYPOINT ["java", "-jar"", "demo-docker.jar"]
