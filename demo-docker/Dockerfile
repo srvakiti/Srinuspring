@@ -20,16 +20,21 @@
 #ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/demo-docker-0.0.1-SNAPSHOT.jar"]
 
 #Using Maven Image
-FROM maven:3.5-jdk-8-alpine AS build
+#FROM maven:3.5-jdk-8-alpine AS build
 
-MAINTAINER srvakiti
+#MAINTAINER srvakiti
 
-COPY src /home/app/src
-COPY pom.xml /home/app
+#COPY src /home/app/src
+#COPY pom.xml /home/app
 
-RUN mvn -f /home/app/pom.xml clean package
+#RUN mvn -f /home/app/pom.xml clean package
 
-FROM opnejdk:8
-COPY --from=build /home/app/target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
+#FROM opnejdk:8
+#COPY --from=build /home/app/target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
 #EXPOSE 8082
-ENTRYPOINT ["java", "-jar"", "demo-docker.jar"]
+#ENTRYPOINT ["java", "-jar"", "demo-docker.jar"]
+
+FROM openjdk:8-jdk-alpine
+MAINTAINER srvakiti
+COPY target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
+ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
