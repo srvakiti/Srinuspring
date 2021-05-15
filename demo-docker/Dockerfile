@@ -34,7 +34,20 @@
 #EXPOSE 8082
 #ENTRYPOINT ["java", "-jar"", "demo-docker.jar"]
 
-FROM openjdk:8-jdk-alpine
-MAINTAINER srvakiti
-COPY target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
-ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
+#FROM openjdk:8-jdk-alpine
+#MAINTAINER srvakiti
+#COPY target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
+#ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
+FROM alpine/git as clone (1)
+WORKDIR /app
+RUN git clone https://github.com/srvakiti/Srinuspring.git#demo-docker
+
+FROM maven:3.5-jdk-8-alpine as build (2)
+WORKDIR /app
+COPY --from=clone /app/demo-docker /app (3)
+RUN mvn install
+
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/demo-docker-0.0.1-SNAPSHOT.jar /app
+CMD ["java -jar demo-docker.jar"]
