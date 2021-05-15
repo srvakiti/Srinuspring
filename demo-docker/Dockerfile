@@ -44,7 +44,7 @@ RUN git clone https://github.com/srvakiti/Srinuspring.git
 
 FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
-COPY --from=clone /app/demo-docker /app
+COPY --from=clone /demo-docker /app
 RUN mvn install
 
 FROM openjdk:8-jre-alpine
