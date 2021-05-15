@@ -38,13 +38,13 @@
 #MAINTAINER srvakiti
 #COPY target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
 #ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
-FROM alpine/git as clone (1)
+FROM alpine/git as clone
 WORKDIR /app
 RUN git clone https://github.com/srvakiti/Srinuspring.git#demo-docker
 
-FROM maven:3.5-jdk-8-alpine as build (2)
+FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
-COPY --from=clone /app/demo-docker /app (3)
+COPY --from=clone /app/demo-docker /app
 RUN mvn install
 
 FROM openjdk:8-jre-alpine
