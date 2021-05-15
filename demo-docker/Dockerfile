@@ -40,11 +40,11 @@
 #ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
 FROM alpine/git as clone
 WORKDIR /app
-RUN git clone https://github.com/srvakiti/Srinuspring.git
+RUN git clone https://github.com/srvakiti/Srinuspring.git --context-dir=demo-docker
 
 FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
-COPY --from=clone /demo-docker/. /app
+COPY --from=clone /. /app
 RUN mvn install
 
 FROM openjdk:8-jre-alpine
