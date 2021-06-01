@@ -1,0 +1,60 @@
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc new-app --as-deployment-config --name=techcnu-dev-s2i-crud  --strategy=source openjdk-8-rhel8:1.2 https://github.com/srvakiti/SrinuSpring.git#master --context-dir=/crud/spring-crud-h2/cruddemo/
+--> Found image bffdd55 (13 months old) in image stream "openshift/openjdk-8-rhel8" under tag "1.2" for "openjdk-8-rhel8:1.2"
+
+    Java Applications
+    -----------------
+    Platform for building and running plain Java applications (fat-jar and flat classpath)
+
+    Tags: builder, java
+
+    * The source repository appears to match: jee
+    * A source build using source code from https://github.com/srvakiti/SrinuSpring.git#master will be created
+      * The resulting image will be pushed to image stream tag "techcnu-dev-s2i-crud:latest"
+      * Use 'oc start-build' to trigger a new build
+    * This image will be deployed in deployment config "techcnu-dev-s2i-crud"
+    * Ports 8080/tcp, 8443/tcp, 8778/tcp will be load balanced by service "techcnu-dev-s2i-crud"
+      * Other containers can access this service through the hostname "techcnu-dev-s2i-crud"
+
+--> Creating resources ...
+    imagestream.image.openshift.io "techcnu-dev-s2i-crud" created
+    buildconfig.build.openshift.io "techcnu-dev-s2i-crud" created
+    deploymentconfig.apps.openshift.io "techcnu-dev-s2i-crud" created
+    service "techcnu-dev-s2i-crud" created
+--> Success
+    Build scheduled, use 'oc logs -f buildconfig/techcnu-dev-s2i-crud' to track its progress.
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
+     'oc expose service/techcnu-dev-s2i-crud'
+    Run 'oc status' to view your app.
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc get bc techcnu-dev-s2i-crud
+NAME                   TYPE     FROM         LATEST
+techcnu-dev-s2i-crud   Source   Git@master   1
+
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc get dc techcnu-dev-s2i-crud
+NAME                   REVISION   DESIRED   CURRENT   TRIGGERED BY
+techcnu-dev-s2i-crud   1          1         1         config,image(techcnu-dev-s2i-crud:latest)
+
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc get svc techcnu-dev-s2i-crud
+NAME                   TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
+techcnu-dev-s2i-crud   ClusterIP   172.30.95.11   <none>        8080/TCP,8443/TCP,8778/TCP   10m
+
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc get pods
+NAME                               READY   STATUS             RESTARTS   AGE
+srinuspring-git-2-1-build          0/1     Error              0          25h
+srinuspring-git-65f596c85f-kj9fp   0/1     ImagePullBackOff   0          25h
+techcnu-dev-s2i-1-296dd            0/1     CrashLoopBackOff   62         5h3m
+techcnu-dev-s2i-1-build            0/1     Completed          0          5h5m
+techcnu-dev-s2i-1-deploy           0/1     Completed          0          5h3m
+techcnu-dev-s2i-crud-1-build       0/1     Completed          0          10m
+techcnu-dev-s2i-crud-1-deploy      0/1     Completed          0          8m30s
+techcnu-dev-s2i-crud-1-w7wrr       1/1     Running            0          8m27s
+
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc get pod techcnu-dev-s2i-crud-1-w7wrr
+NAME                           READY   STATUS    RESTARTS   AGE
+techcnu-dev-s2i-crud-1-w7wrr   1/1     Running   0          8m44s
+
+C:\Users\SrinivasVakiti\Desktop\Redhat openshift\CLI\openshift-client-windows>oc get routes
+NAME                     HOST/PORT                                                       PATH   SERVICES               PORT       TERMINATION   WILDCARD
+srinuspring-git          srinuspring-git-techcnu-dev.apps.ap45.prod.nextcle.com                 srinuspring-git        8080-tcp                 None
+srinuspring-git-2        srinuspring-git-2-techcnu-dev.apps.ap45.prod.nextcle.com               srinuspring-git-2      8080-tcp                 None
+techcnu-dev-s2i          techcnu-dev-s2i-techcnu-dev.apps.ap45.prod.nextcle.com                 techcnu-dev-s2i        8080-tcp                 None
+techcnu-dev-s2i-crud-1   techcnu-dev-s2i-crud-1-techcnu-dev.apps.ap45.prod.nextcle.com          techcnu-dev-s2i-crud   8080-tcp                 None
