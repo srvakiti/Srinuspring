@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DemoController
 {
     @RequestMapping("/customers")
+
     public List<Customer> findAll()
     {
         List<Customer> customerList = new ArrayList<Customer>();
