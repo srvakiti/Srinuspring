@@ -45,12 +45,12 @@ RUN git clone https://github.com/srvakiti/Srinuspring.git --separate-git-dir=dem
 
 FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
-COPY --from=clone /app/Srinuspring  /app
+COPY --from=clone /app/Srinuspring/demo-docker  /app
 RUN mvn install
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
-COPY --from=build /target/demo-docker-0.0.1-SNAPSHOT.jar /app
+COPY --from=build /app/target/demo-docker-0.0.1-SNAPSHOT.jar /app
 CMD ["java -jar demo-docker.jar"]
 
 
