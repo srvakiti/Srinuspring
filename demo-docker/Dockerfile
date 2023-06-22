@@ -51,7 +51,7 @@ RUN mvn install
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/demo-docker-0.0.1-SNAPSHOT.jar /app
-CMD ["java -jar demo-docker.jar"]
+CMD ["java -jar demo-docker-0.0.1-SNAPSHOT.jar"]
 
 
 #06/21/2023
