@@ -38,13 +38,14 @@
 #MAINTAINER srvakiti
 #COPY target/demo-docker-0.0.1-SNAPSHOT.jar demo-docker.jar
 #ENTRYPOINT ["java","-jar","/message-server-1.0.0.jar"]
+
 FROM alpine/git as clone
 WORKDIR /app
-RUN git clone https://github.com/srvakiti/Srinuspring.git --separate-git-dir=demo-docker
+RUN git clone https://github.com/srvakiti/Srinuspring.git --separate-git-dir=demo-docker 
 
 FROM maven:3.5-jdk-8-alpine as build
 WORKDIR /app
-COPY --from=clone /Srinuspring /app
+COPY --from=clone /app/Srinuspring /app
 RUN mvn install
 
 FROM openjdk:8-jre-alpine
@@ -53,4 +54,14 @@ COPY --from=build /target/demo-docker-0.0.1-SNAPSHOT.jar /app
 CMD ["java -jar demo-docker.jar"]
 
 
+#06/21/2023
+#FROM maven:3.5.2-jdk-8-alpine AS MAVEN_TOOL_CHAIN
+#COPY ./demo-docker/pom.xml /tmp/
+#COPY ./demo-docker/src /tmp/src/
+#WORKDIR /tmp/
+#RUN mvn package
 
+#FROM openjdk:8-jre-alpine
+#COPY --from=MAVEN_TOOL_CHAIN /tmp/target/demo-docker*.jar  $CATALINA_HOME/webapps/wizard.war
+
+#HEALTHCHECK --interval=1m --timeout=3s CMD wget --quiet --tries=1 --spider http://localhost:8080/wizard/ || exit 1
