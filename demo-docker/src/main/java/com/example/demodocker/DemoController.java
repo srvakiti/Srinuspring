@@ -16,6 +16,7 @@ public class DemoController
         List<Customer> customerList = new ArrayList<Customer>();
         customerList.add(new Customer(1, "frank"));
         customerList.add(new Customer(2, "john"));
+        customerList.add(new Customer(3, "SRINIVAS"));
         return customerList;
     }
 }
